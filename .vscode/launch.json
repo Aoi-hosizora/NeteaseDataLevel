@@ -9,7 +9,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/NeteaseLevel.dll",
+			"program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/NeteaseDataLevel.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}",
 			"console": "internalConsole",

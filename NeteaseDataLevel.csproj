@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aiursoft.HSharp" Version="2.2.0" />
     <PackageReference Include="Aiursoft.Pylon" Version="0.12.2" />
   </ItemGroup>
 
