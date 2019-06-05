@@ -40,10 +40,11 @@ namespace NeteaseLevel
 				}
 			}
 			catch (Exception ex) {
-				Console.Write("Can not find setting.json Or json error.");
-				Console.Write("Netease User Id:");
+				Console.WriteLine(ex.Message);
+				Console.WriteLine("Can not find setting.json Or json error.");
+				Console.Write("Netease User Id: ");
 				UserId = Console.ReadLine();
-				Console.Write("SCKEY:");
+				Console.Write("SCKEY: ");
 				SCKEY = Console.ReadLine();
 			}
 
