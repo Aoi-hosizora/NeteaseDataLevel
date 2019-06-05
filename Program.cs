@@ -1,33 +1,62 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Aiursoft.Pylon.Models;
 using Aiursoft.Pylon.Services;
 
 namespace NeteaseLevel
 {
-    class Program
-    {
-		
+	class Program
+	{
+
 		private static string SCKEY;
 		private static string UserId;
 
 		static void Main(string[] arg) {
 
-			Console.Write("网易云用户ID: ");
-			UserId = Console.ReadLine();
-			Console.Write("SCKEY: ");
-			SCKEY = Console.ReadLine();
-			
-			Console.WriteLine("\n开始监听数据：");
+			string jsonfile = "./setting.json";
+
+			/* {
+				"UserId": "123456789",
+				"SCKEY": "xxxxxx"
+			} */
+
+			try {
+				using (StreamReader file = System.IO.File.OpenText(jsonfile)) {
+					using (JsonTextReader reader = new JsonTextReader(file)) {
+
+						JObject o = (JObject)JToken.ReadFrom(reader);
+						UserId = o["UserId"].ToString();
+						SCKEY = o["SCKEY"].ToString();
+					}
+
+					Console.WriteLine("Found setting.json:");
+					Console.WriteLine($"Netease User Id: {UserId}");
+					Console.WriteLine($"SCKEY: {SCKEY}");
+				}
+			}
+			catch (Exception ex) {
+				Console.Write("Can not find setting.json Or json error.");
+				Console.Write("Netease User Id:");
+				UserId = Console.ReadLine();
+				Console.Write("SCKEY:");
+				SCKEY = Console.ReadLine();
+			}
+
+			Console.WriteLine("\n Starting Listen：");
 			WaitDay(UserId).Wait();
 		}
 
 		public static async Task WaitDay(string uid) {
+
 			int today = DateTime.Now.Day;
+			await GetDetailByApi(uid);
 			while (true) {
-				Console.WriteLine("Today: " + today);
+				Console.WriteLine("Today: " + today + " Time: " + DateTime.Now);
 
 				if (today != DateTime.Now.Day) {
 					today = DateTime.Now.Day;
@@ -39,8 +68,8 @@ namespace NeteaseLevel
 						Console.WriteLine(ex.Message);
 					}
 				}
-				
-				await Task.Delay(1000*5); // Wait 5s
+
+				await Task.Delay(1000 * 5); // Wait 5s
 			}
 		}
 
